@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 namespace UnityEditor
 {
-	[CreateAssetMenu, CustomGridBrush(false, true, false, "Random Brush")]
+	[CreateAssetMenu, CustomGridBrush(false, true, false, "Test Random Brush")]
 	public class TestRandomBrush : GridBrush
 	{
 		[Flags]
