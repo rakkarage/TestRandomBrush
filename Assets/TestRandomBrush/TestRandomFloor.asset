@@ -8,8 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36efcaefda44ec444aadc70f5b7abb09, type: 3}
-  m_Name: RandomFloor
+  m_Script: {fileID: 11500000, guid: d80edd6caba93514eb01722041fe50b4, type: 3}
+  m_Name: TestRandomFloor
   m_EditorClassIdentifier: 
   m_Cells:
   - m_Tile: {fileID: 0}
@@ -33,6 +33,7 @@ MonoBehaviour:
     m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Size: {x: 1, y: 1, z: 1}
   m_Pivot: {x: 0, y: 0, z: 0}
+  orientation: -1
   randomTiles:
   - {fileID: 11400000, guid: 00525f509c6d18944ac9c23b94e10e33, type: 2}
   - {fileID: 11400000, guid: fe289a76b96b2cd4c852aae5bd901b03, type: 2}
@@ -40,3 +41,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4f2e6f8e0a132ee45a59c3d86a1d153c, type: 2}
   - {fileID: 11400000, guid: b0de3f4ec4f009641a697215100a68bc, type: 2}
   - {fileID: 11400000, guid: 5eeec5acf729e1448844e734e3120edb, type: 2}
+  probabilities: 060000000600000006000000060000000100000001000000
