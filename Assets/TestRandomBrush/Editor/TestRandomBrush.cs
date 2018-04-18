@@ -185,7 +185,7 @@ namespace UnityEditor
 		}
 	}
 	[CustomEditor(typeof(TestRandomBrush))]
-	public class RandomBrushEditor : GridBrushEditor
+	public class TestRandomBrushEditor : GridBrushEditor
 	{
 		private TestRandomBrush randomBrush => target as TestRandomBrush;
 		private GameObject lastBrush;

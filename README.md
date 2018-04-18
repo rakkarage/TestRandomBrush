@@ -6,6 +6,7 @@
 - [x] rotate & flip works for box but not flood fill
 - [ ] when move is selected without a selection it draws a select box that does nothing?
 - [ ] pivot etc. private?
+- [ ] change size of brush with ctrl and paint with long brush last position stamp has only 1 tile? this is broke in base too
 
 ## RandomBrush Bugs
 
