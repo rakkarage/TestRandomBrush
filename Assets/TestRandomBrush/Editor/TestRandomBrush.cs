@@ -63,15 +63,9 @@ namespace UnityEditor
 				lastPosition = key;
 			}
 		}
-		// TODO: FIX THIS SHIT!!! WTF!?
-		public void CacheClear(BoundsInt bounds)
+		public void CacheClear(Vector3Int? position = null)
 		{
-			foreach (var i in bounds.allPositionsWithin)
-				CacheClear(i);
-		}
-		public void CacheClear(Vector3Int position)
-		{
-			if (lastPosition != position)
+			if (position == null || position != lastPosition)
 				cache.Clear();
 		}
 		private FlipAxis? flipAxis;
@@ -199,7 +193,7 @@ namespace UnityEditor
 		public override void BoxFillPreview(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
 		{
 			var brush = randomBrush;
-			brush.CacheClear(position);
+			brush.CacheClear();
 			if (brush.randomTiles?.Length > 0)
 				foreach (var i in position.allPositionsWithin)
 					Common(gridLayout, brushTarget, i);
