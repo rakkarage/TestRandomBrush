@@ -215,11 +215,15 @@ namespace UnityEditor
 			var exist = map.GetTile(position);
 			var points = new Stack<Vector3Int>();
 			var used = new List<Vector3Int>();
+			var bounds = map.cellBounds;
 			points.Push(position);
 			while (points.Count > 0)
 			{
 				var p = points.Pop();
 				used.Add(p);
+				if (!bounds.Contains(p))
+					bounds.SetMinMax(new Vector3Int(Math.Min(bounds.xMin, p.x), Math.Min(bounds.yMin, p.y), 0),
+						new Vector3Int(Math.Max(bounds.xMax, p.x) + 1, Math.Max(bounds.yMax, p.y) + 1, 1));
 				Common(map, gridLayout, brushTarget, p);
 				for (var y = p.y - 1; y <= p.y + 1; y++)
 				{
