@@ -194,14 +194,14 @@ namespace UnityEditor
 		{
 			var brush = RandomBrush;
 			brush.CacheClear(position);
-			if (RandomBrush.randomTiles?.Length > 0)
+			if (brush.randomTiles?.Length > 0)
 				Common(gridLayout, brushTarget, position);
 		}
 		public override void BoxFillPreview(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
 		{
 			var brush = RandomBrush;
 			brush.CacheClear();
-			if (RandomBrush.randomTiles?.Length > 0)
+			if (brush.randomTiles?.Length > 0)
 				foreach (var i in position.allPositionsWithin)
 					Common(gridLayout, brushTarget, i);
 		}
@@ -209,7 +209,7 @@ namespace UnityEditor
 		{
 			var brush = RandomBrush;
 			brush.CacheClear(position);
-			if (RandomBrush.randomTiles?.Length > 0)
+			if (brush.randomTiles?.Length > 0)
 			{
 				var map = brushTarget?.GetComponent<Tilemap>();
 				if (map == null)
