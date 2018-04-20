@@ -54,7 +54,7 @@ namespace UnityEditor
 			get
 			{
 				if (!cache.ContainsKey(key))
-					cache[key] = new Tuple<TileBase, Matrix4x4>(RandomTile, RandomMatrix);
+					this[key] = new Tuple<TileBase, Matrix4x4>(RandomTile, RandomMatrix);
 				return cache[key];
 			}
 			set
