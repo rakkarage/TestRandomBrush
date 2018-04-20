@@ -8,11 +8,13 @@
 ## RandomBrush Bugs
 
 - [x] box & flood fill not working
-  - expanding flood fill
+  - and expanding flood fill
 - [x] not saving tiles from preview to use in paint
 - [x] not using CreateAssetMenu
 - [x] not showing in inspector
-- [ ] move????????????????????????????????????
+- [ ] move???
+  - move works but regenerates tiles and orientations
+    - need to move cache with it
 
 ## RandomBrush Features
 
