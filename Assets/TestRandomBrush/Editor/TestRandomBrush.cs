@@ -167,9 +167,11 @@ namespace UnityEditor
 			var map = brushTarget?.GetComponent<Tilemap>();
 			if (map == null)
 				return;
-			Common(map, gridLayout, brushTarget, position);
-			foreach (var i in cache.ToList())
-				Common(map, gridLayout, brushTarget, i.Key);
+			var min = position - this.pivot;
+			var max = min + this.size;
+			var bounds = new BoundsInt(min, max - min);
+			foreach (var i in bounds.allPositionsWithin)
+				Common(map, gridLayout, brushTarget, i);
 		}
 		private void Common(Tilemap map, GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
 		{
@@ -185,24 +187,18 @@ namespace UnityEditor
 		private GameObject lastBrush;
 		public override void PaintPreview(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
 		{
-			var brush = RandomBrush;
-			brush.CacheClear(position);
-			if (brush.randomTiles?.Length > 0)
+			if (RandomBrush.randomTiles?.Length > 0)
 				Common(gridLayout, brushTarget, position);
 		}
 		public override void BoxFillPreview(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
 		{
-			var brush = RandomBrush;
-			brush.CacheClear();
-			if (brush.randomTiles?.Length > 0)
+			if (RandomBrush.randomTiles?.Length > 0)
 				foreach (var i in position.allPositionsWithin)
 					Common(gridLayout, brushTarget, i);
 		}
 		public override void FloodFillPreview(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
 		{
-			var brush = RandomBrush;
-			brush.CacheClear(position);
-			if (brush.randomTiles?.Length > 0)
+			if (RandomBrush.randomTiles?.Length > 0)
 			{
 				var map = brushTarget?.GetComponent<Tilemap>();
 				if (map == null)
