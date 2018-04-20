@@ -20,3 +20,7 @@
 
 - [x] choose random brush based on probability
 - [x] randomize the transform too
+
+## TODO
+
+- [ ] test flip and rotate again!? not saving tile?
