@@ -17,17 +17,17 @@ namespace UnityEditor
 			Rot90 = (1 << 2),
 		}
 		public Orientation orientation = Orientation.None;
-		private bool randomBool => UnityEngine.Random.value > .5f;
-		private bool flipX => (orientation & Orientation.FlipX) == Orientation.FlipX ? randomBool : false;
-		private bool flipY => (orientation & Orientation.FlipY) == Orientation.FlipY ? randomBool : false;
-		private bool rot90 => (orientation & Orientation.Rot90) == Orientation.Rot90 ? randomBool : false;
+		private bool RandomBool => UnityEngine.Random.value > .5f;
+		private bool FlipX => (orientation & Orientation.FlipX) == Orientation.FlipX ? RandomBool : false;
+		private bool FlipY => (orientation & Orientation.FlipY) == Orientation.FlipY ? RandomBool : false;
+		private bool Rot90 => (orientation & Orientation.Rot90) == Orientation.Rot90 ? RandomBool : false;
 		private static Quaternion rotateClockwise = Quaternion.Euler(0, 0, -90f);
 		private static Quaternion rotateCounter = Quaternion.Euler(0, 0, 90f);
-		private Matrix4x4 randomMatrix => Matrix4x4.TRS(Vector3.zero,
-			rot90 ? rotateClockwise : Quaternion.identity, new Vector3(flipX ? -1f : 1f, flipY ? -1f : 1f, 1f));
+		private Matrix4x4 RandomMatrix => Matrix4x4.TRS(Vector3.zero,
+			Rot90 ? rotateClockwise : Quaternion.identity, new Vector3(FlipX ? -1f : 1f, FlipY ? -1f : 1f, 1f));
 		public TileBase[] randomTiles;
 		public int[] probabilities;
-		private TileBase randomTile
+		private TileBase RandomTile
 		{
 			get
 			{
@@ -54,7 +54,7 @@ namespace UnityEditor
 			get
 			{
 				if (!cache.ContainsKey(key))
-					cache[key] = new Tuple<TileBase, Matrix4x4>(randomTile, randomMatrix);
+					cache[key] = new Tuple<TileBase, Matrix4x4>(RandomTile, RandomMatrix);
 				return cache[key];
 			}
 			set
@@ -102,7 +102,7 @@ namespace UnityEditor
 			rotationDirection = direction;
 			base.Rotate(direction, layout);
 		}
-		public bool moving { get; set; }
+		public bool Moving { get; set; }
 		public override void MoveStart(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
 		{
 			Debug.Log("MoveStart");
@@ -181,18 +181,18 @@ namespace UnityEditor
 	[CustomEditor(typeof(TestRandomBrush))]
 	public class TestRandomBrushEditor : GridBrushEditor
 	{
-		private TestRandomBrush randomBrush => target as TestRandomBrush;
+		private TestRandomBrush RandomBrush => target as TestRandomBrush;
 		private GameObject lastBrush;
 		public override void PaintPreview(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
 		{
-			var brush = randomBrush;
+			var brush = RandomBrush;
 			brush.CacheClear(position);
 			if (brush.randomTiles?.Length > 0)
 				Common(gridLayout, brushTarget, position);
 		}
 		public override void BoxFillPreview(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
 		{
-			var brush = randomBrush;
+			var brush = RandomBrush;
 			brush.CacheClear();
 			if (brush.randomTiles?.Length > 0)
 				foreach (var i in position.allPositionsWithin)
@@ -200,7 +200,7 @@ namespace UnityEditor
 		}
 		public override void FloodFillPreview(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
 		{
-			var brush = randomBrush;
+			var brush = RandomBrush;
 			brush.CacheClear(position);
 			if (brush.randomTiles?.Length > 0)
 			{
@@ -216,6 +216,7 @@ namespace UnityEditor
 			var points = new Stack<Vector3Int>();
 			var used = new List<Vector3Int>();
 			var bounds = map.cellBounds;
+			var size = new Vector2Int((int)map.cellSize.x, (int)map.cellSize.y);
 			points.Push(position);
 			while (points.Count > 0)
 			{
@@ -223,7 +224,7 @@ namespace UnityEditor
 				used.Add(p);
 				if (!bounds.Contains(p))
 					bounds.SetMinMax(new Vector3Int(Math.Min(bounds.xMin, p.x), Math.Min(bounds.yMin, p.y), 0),
-						new Vector3Int(Math.Max(bounds.xMax, p.x) + 1, Math.Max(bounds.yMax, p.y) + 1, 1));
+						new Vector3Int(Math.Max(bounds.xMax, p.x) + size.x, Math.Max(bounds.yMax, p.y) + size.y, 1));
 				Common(map, gridLayout, brushTarget, p);
 				for (var y = p.y - 1; y <= p.y + 1; y++)
 				{
@@ -250,7 +251,7 @@ namespace UnityEditor
 		}
 		private void Common(Tilemap map, GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
 		{
-			var c = randomBrush[position];
+			var c = RandomBrush[position];
 			map.SetEditorPreviewTile(position, c.Item1);
 			map.SetEditorPreviewTransformMatrix(position, c.Item2);
 			lastBrush = brushTarget;
@@ -259,7 +260,7 @@ namespace UnityEditor
 		{
 			if (lastBrush != null)
 			{
-				randomBrush.CacheUpdate();
+				RandomBrush.CacheUpdate();
 				var map = lastBrush.GetComponent<Tilemap>();
 				if (map == null)
 					return;
@@ -271,7 +272,7 @@ namespace UnityEditor
 		public override void OnInspectorGUI() => GUI();
 		private void GUI()
 		{
-			var brush = randomBrush;
+			var brush = RandomBrush;
 			EditorGUI.BeginChangeCheck();
 			brush.orientation = (TestRandomBrush.Orientation)EditorGUILayout.EnumFlagsField("Random Orientation", brush.orientation);
 			if (EditorGUI.EndChangeCheck())
