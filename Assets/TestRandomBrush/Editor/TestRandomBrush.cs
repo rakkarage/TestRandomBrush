@@ -63,11 +63,12 @@ namespace UnityEditor
 				lastPosition = key;
 			}
 		}
-		public void CacheClear(Vector3Int? position = null)
+		public void CacheClear(Vector3Int position)
 		{
-			if (position == null || position != lastPosition)
+			if (position != lastPosition)
 				cache.Clear();
 		}
+		public void CacheRemove(Vector3Int position) => cache.Remove(position);
 		private FlipAxis? flipAxis;
 		private RotationDirection? rotationDirection;
 		public void CacheUpdate()
@@ -111,7 +112,7 @@ namespace UnityEditor
 		public override void Select(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
 		{
 			var map = brushTarget?.GetComponent<Tilemap>();
-			if (map == null)
+			if (!map)
 				return;
 			foreach (var i in position.allPositionsWithin)
 			{
@@ -145,7 +146,7 @@ namespace UnityEditor
 			if (randomTiles?.Length > 0)
 			{
 				var map = brushTarget?.GetComponent<Tilemap>();
-				if (map == null)
+				if (!map)
 					return;
 				FloodFill(map, gridLayout, brushTarget, position);
 			}
@@ -176,7 +177,7 @@ namespace UnityEditor
 		private void Common(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
 		{
 			var map = brushTarget?.GetComponent<Tilemap>();
-			if (map == null)
+			if (!map)
 				return;
 			foreach (var i in Bounds(position).allPositionsWithin)
 				Common(map, gridLayout, brushTarget, i);
@@ -202,8 +203,13 @@ namespace UnityEditor
 		}
 		public override void BoxFillPreview(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
 		{
+			var map = brushTarget?.GetComponent<Tilemap>();
+			if (!map)
+				return;
 			var brush = RandomBrush;
-			brush.CacheClear();
+			foreach (var i in position.allPositionsWithin)
+				if (map.GetTile(i) != null && map.GetEditorPreviewTile(i) != null)
+					brush.CacheRemove(i);
 			if (brush.randomTiles?.Length > 0)
 				foreach (var i in position.allPositionsWithin)
 					Common(gridLayout, brushTarget, i);
@@ -215,7 +221,7 @@ namespace UnityEditor
 			if (brush.randomTiles?.Length > 0)
 			{
 				var map = brushTarget?.GetComponent<Tilemap>();
-				if (map == null)
+				if (!map)
 					return;
 				FloodFill(map, gridLayout, brushTarget, position);
 			}
@@ -251,7 +257,7 @@ namespace UnityEditor
 		private void Common(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
 		{
 			var map = brushTarget?.GetComponent<Tilemap>();
-			if (map == null)
+			if (!map)
 				return;
 			foreach (var i in RandomBrush.Bounds(position).allPositionsWithin)
 				Common(map, gridLayout, brushTarget, i);
@@ -269,7 +275,7 @@ namespace UnityEditor
 			{
 				RandomBrush.CacheUpdate();
 				var map = lastBrush.GetComponent<Tilemap>();
-				if (map == null)
+				if (!map)
 					return;
 				map.ClearAllEditorPreviewTiles();
 				lastBrush = null;
