@@ -41,10 +41,8 @@ namespace UnityEditor
 						if (roll < total)
 							return randomTiles[i];
 					}
-					return null;
 				}
-				else
-					return randomTiles[UnityEngine.Random.Range(0, randomTiles.Length)];
+				return randomTiles[UnityEngine.Random.Range(0, randomTiles.Length)];
 			}
 		}
 		private Vector3Int? lastPosition;
