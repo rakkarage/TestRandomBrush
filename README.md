@@ -1,4 +1,4 @@
-# TestTileMap - Unity Tilemap Tests
+# TestRandomBrush - Unity Tilemap RandomBrush Tests
 
 ## DefaultBrush Bugs
 
