@@ -1,5 +1,10 @@
 # TestRandomBrush - Unity Tilemap RandomBrush Tests
 
+Adds rotation and flipping and probability to RandomBrush.
+Adding rotation and flipping to the 6 basic floor tiles effectively quadruples the amount of tiles.
+Using probability you can make some tiles more rare then others so they get chosen less.
+Includes simple example scene and tile set and palette.
+
 ## DefaultBrush Bugs
 
 - [x] rotate & flip works for box but not flood fill
