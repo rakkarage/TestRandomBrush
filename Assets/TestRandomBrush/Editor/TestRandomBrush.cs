@@ -108,23 +108,26 @@ namespace UnityEditor
 			rotationDirection = direction;
 			base.Rotate(direction, layout);
 		}
-		public bool Moving { get; set; }
-		public override void MoveStart(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
+		public override void Select(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
 		{
-			Debug.Log("MoveStart");
-			Moving = true;
-			base.MoveStart(gridLayout, brushTarget, position);
+			var map = brushTarget?.GetComponent<Tilemap>();
+			if (map == null)
+				return;
+			foreach (var i in position.allPositionsWithin)
+			{
+				var tile = map.GetTile(i);
+				this[i] = new Tuple<TileBase, Matrix4x4>(tile, map.GetTransformMatrix(i));
+			}
 		}
 		public override void Move(GridLayout gridLayout, GameObject brushTarget, BoundsInt from, BoundsInt to)
 		{
-			Debug.Log("Move");
+			Vector3Int offset = to.min - from.min;
+			foreach (var i in cache.ToList())
+			{
+				cache[i.Key] = null;
+				cache[i.Key + offset] = i.Value;
+			}
 			base.Move(gridLayout, brushTarget, from, to);
-		}
-		public override void MoveEnd(GridLayout gridLayout, GameObject brushTarget, BoundsInt position)
-		{
-			Debug.Log("MoveEnd");
-			base.MoveEnd(gridLayout, brushTarget, position);
-			Moving = false;
 		}
 		public override void Paint(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
 		{
