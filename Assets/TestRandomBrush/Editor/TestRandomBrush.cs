@@ -247,7 +247,7 @@ namespace UnityEditor
 					for (var x = p.x - 1; x <= p.x + 1; x++)
 					{
 						var test = new Vector3Int(x, y, p.z);
-						if ((test.y != p.y || test.x != p.x) && map.cellBounds.Contains(test) &&
+						if ((test.y != p.y || test.x != p.x) && bounds.Contains(test) &&
 							(exist ? map.GetTile(test) : !map.GetTile(test)) && !used.Contains(test))
 							points.Push(test);
 					}
