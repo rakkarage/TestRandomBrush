@@ -16,7 +16,7 @@ namespace UnityEditor
 			FlipY = (1 << 1),
 			Rot90 = (1 << 2),
 		}
-		public Orientation orientation = Orientation.None;
+		public Orientation orientation;
 		private bool RandomBool => UnityEngine.Random.value > .5f;
 		private bool FlipX => (orientation & Orientation.FlipX) == Orientation.FlipX ? RandomBool : false;
 		private bool FlipY => (orientation & Orientation.FlipY) == Orientation.FlipY ? RandomBool : false;
